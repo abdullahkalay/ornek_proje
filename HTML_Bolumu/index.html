@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/sweetalert2.min.css" rel="stylesheet">
+
+    <title>Örnek Proje HTML Bölümü</title>
+</head>
+<body>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 text-center p-2">
+            <h2>Örnek Proje HTML Bölümü</h2>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-lg-8">
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#studentAddModal">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16">
+                    <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                    <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
+                </svg>&nbsp;Öğrenci Ekle
+            </button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#schoolAddModal">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-plus-fill" viewBox="0 0 16 16">
+                    <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM8.5 6v1.5H10a.5.5 0 0 1 0 1H8.5V10a.5.5 0 0 1-1 0V8.5H6a.5.5 0 0 1 0-1h1.5V6a.5.5 0 0 1 1 0z"/>
+                </svg>&nbsp;Okul Ekle
+            </button>
+        </div>
+        <div class="col-lg-4 text-end">
+            <label for="pageItemCountSelect">Sayfa başına gösterilecek öğrenci:</label>
+            <select id="pageItemCountSelect" onchange="pageItemCountChange()">
+                <option value="10">10</option>
+                <option value="20" selected>20</option>
+                <option value="30">30</option>
+                <option value="40">40</option>
+                <option value="50">50</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <table class="table table-hover">
+            <tbody id="students_table_content">
+            <tr>
+                <th>#</th>
+                <th>Öğrenci Adı</th>
+                <th>Öğrenci Soyadı</th>
+                <th>TC Kimlik No.</th>
+                <th>Okul</th>
+                <th>Okul Numarası</th>
+                <th>İşlem</th>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <nav aria-label="Sayfalama">
+                <ul class="pagination justify-content-center" id="paging_ul">
+                    <li class="page-item disabled" id="pagingPrev">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Önceki</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item" id="pagingNext">
+                        <a class="page-link" href="#">Sonraki</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- MODALS -->
+
+<!-- Student Add Modal -->
+<div class="modal fade" id="studentAddModal" tabindex="-1" aria-labelledby="studentAddModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="studentAddModalLabel">Öğrenci Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="student_name_input" class="form-label">Ad</label>
+                        <input type="text" class="form-control" id="student_name_input" maxlength="125" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="student_surname_input" class="form-label">Soyad</label>
+                        <input type="text" class="form-control" id="student_surname_input" maxlength="75" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="student_tcno_input" class="form-label">TC Kimlik NO</label>
+                        <input type="text" class="form-control" id="student_tcno_input" maxlength="11" minlength="11" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="school_id_input" class="form-label">Okul</label>
+                        <select class="form-control" id="school_id_input">
+
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="school_no_input" class="form-label">Okul Numarası</label>
+                        <input type="text" class="form-control" id="school_no_input" maxlength="25" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-primary" onclick="AddStudentFromForm();">Öğrenciyi Ekle</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Student Update Modal -->
+<div class="modal fade" id="studentUpdateModal" tabindex="-1" aria-labelledby="studentUpdateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="studentUpdateModalLabel">Öğrenci Bilgilerini Güncelle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="student_name_input_up" class="form-label">Ad</label>
+                        <input type="text" class="form-control" id="student_name_input_up" maxlength="125" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="student_surname_input_up" class="form-label">Soyad</label>
+                        <input type="text" class="form-control" id="student_surname_input_up" maxlength="75" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="student_tcno_input_up" class="form-label">TC Kimlik NO</label>
+                        <input type="text" class="form-control" id="student_tcno_input_up" maxlength="11" minlength="11" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="school_id_input_up" class="form-label">Okul</label>
+                        <select class="form-control" id="school_id_input_up">
+
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="school_no_input_up" class="form-label">Okul Numarası</label>
+                        <input type="text" class="form-control" id="school_no_input_up" maxlength="25" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-primary" id="updateStudentBtn">Güncelle</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- School Add Modal -->
+<div class="modal fade" id="schoolAddModal" tabindex="-1" aria-labelledby="schoolAddModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="schoolAddModalLabel">Okul Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="student_name_input" class="form-label">Okul Adı</label>
+                        <input type="text" class="form-control" id="school_name_input" maxlength="500" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-primary" onclick="AddSchoolFromForm();">Okul Ekle</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="d-none">
+    <input type="number" id="pageNumberHolder" value="1" class="d-none">
+    <input type="number" id="totalStudentCountHolder" value="400" class="d-none">
+</div>
+
+<script src="js/jquery-3.6.0.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/sweetalert2.all.min.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
